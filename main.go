@@ -6,13 +6,14 @@ import (
 	"image/png"
 	_ "image/png"
 	"os"
+	"myzel394.app/image-stuff/imageutils"
 )
 
 func main() {
 	// Read image
-	reader, _ := os.Open("./assets/surfer.png")
+	reader, _ := os.Open("./assets/water2.png")
 	rawImage, _, _ := image.Decode(reader)
-	readImage := ImageAnalyzer{Image: rawImage}
+	readImage := imageutils.ImageAnalyzer{Image: rawImage}
 
 	bounds := readImage.Bounds()
 	width := bounds.Max.X
