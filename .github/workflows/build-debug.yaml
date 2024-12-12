@@ -1,0 +1,38 @@
+name: Build debug
+
+permissions:
+  contents: write
+
+on:
+  push:
+
+jobs:
+  build-server:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: ["amd64", "arm"]
+        os: ["darwin", "linux"]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: stable
+
+      - name: Build arch
+        run: env GOOS=${{ matrix.os }} GOARCH=${{ matrix.arch }} go build -o seam-carving-${{ matrix.os }}-${{ matrix.arch }} -ldflags="-s -w" .
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: seam-carving-${{ matrix.os }}-${{ matrix.arch }}
+          path: seam-carving-${{ matrix.os }}-${{ matrix.arch }}
+        
+
+
